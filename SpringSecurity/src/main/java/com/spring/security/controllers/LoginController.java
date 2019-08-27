@@ -2,6 +2,7 @@ package com.spring.security.controllers;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,27 @@ public class LoginController {
         return modelAndView;
     }
     
-    @RequestMapping(value={"/user/user"}, method = RequestMethod.GET)
+    @RequestMapping(value="/default", method = RequestMethod.GET)
+    public ModelAndView defaultAccess(HttpServletRequest request){
+    	ModelAndView modelAndView = new ModelAndView();
+
+        if(request.isUserInRole("ROLE_ADMIN")) {
+        	modelAndView.setViewName("admin/home");
+        }
+        else if(request.isUserInRole("ROLE_USER")) {
+        	modelAndView.setViewName("user/home");
+        }
+        else {
+        	
+        }
+        
+        return modelAndView;
+    }
+    
+    @RequestMapping(value={"/user/home"}, method = RequestMethod.GET)
     public ModelAndView user(){
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user/user");
+        modelAndView.setViewName("user/home");
         return modelAndView;
     }
 
